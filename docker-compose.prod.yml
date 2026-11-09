@@ -1,0 +1,43 @@
+services:
+  mattermost:
+    image: mattermost/mattermost-team-edition:12.0.1
+    container_name: mattermost
+    ports:
+      - "8065:8065"
+    environment:
+      - MM_SQLSETTINGS_DRIVERNAME=postgres
+      - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:MM_PG_PASSWORD@postgres:5432/mattermost?sslmode=disable
+      - MM_SERVICESETTINGS_SITEURL=http://localhost:8065
+      - MM_SERVICESETTINGS_ENABLELOCALMODE=true
+    volumes:
+      - mattermost-migration_mattermost_data:/mattermost/data
+      - mattermost-migration_mattermost_logs:/mattermost/logs
+    networks:
+      - mattermost_network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: mattermost-postgres
+    environment:
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=MM_PG_PASSWORD
+      - POSTGRES_DB=mattermost
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - mattermost_network
+    restart: unless-stopped
+
+networks:
+  mattermost_network:
+    driver: bridge
+
+volumes:
+  pg_data:
+  mattermost-migration_mattermost_data:
+    external: true
+  mattermost-migration_mattermost_logs:
+    external: true

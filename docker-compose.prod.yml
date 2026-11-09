@@ -11,8 +11,8 @@ services:
       - MM_SERVICESETTINGS_SITEURL=http://localhost:8065
       - MM_SERVICESETTINGS_ENABLELOCALMODE=true
     volumes:
-      - mattermost-migration_mattermost_data:/mattermost/data
-      - mattermost-migration_mattermost_logs:/mattermost/logs
+      - legacy_mattermost_data:/mattermost/data
+      - legacy_mattermost_logs:/mattermost/logs
     networks:
       - mattermost_network
     depends_on:
@@ -38,7 +38,7 @@ networks:
 
 volumes:
   pg_data:
-  mattermost-migration_mattermost_data:
+  legacy_mattermost_data:
     external: true
-  mattermost-migration_mattermost_logs:
+  legacy_mattermost_logs:
     external: true

@@ -77,13 +77,12 @@ jobs:
           docker compose -f $COMPOSE_FILE logs
           exit 1
         fi
-    - name: Upload Artifacts
+     - name: Upload Artifacts
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: migration-backup
         path: |
           mattermost_mysql_backup_*.sql
-          
-           *.log
+          *.log
         retention-days: 7

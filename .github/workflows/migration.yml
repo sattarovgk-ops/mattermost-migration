@@ -87,4 +87,4 @@ jobs:
           mattermost_mysql_backup_*.sql
           *.log
         retention-days: 7
-\
+
